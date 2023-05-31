@@ -15,27 +15,25 @@ class EnvioEmail {
     });
   }
 
-  enviarEmail(destinatario, assunto, conteudo) {
-    const verificationCode = Math.floor(100000 + Math.random() * 900000);
-
+  sendVerificationCode(email, verificationCode) {
     const mailOptions = {
       from: this.userMail,
-      to: destinatario,
-      subject: assunto,
-      text: conteudo + verificationCode
+      to: email,
+      subject: "Seu Codigo de verificação",
+      text: verificationCode.toString()
     };
 
-    this.transporter.sendMail(mailOptions, function (error, info) {
-      if (error) {
-        console.log("Erro ao enviar e-mail:", error);
-      } else {
-        console.log("E-mail enviado com sucesso!");
-      }
+    return new Promise((resolve, reject) => {
+      this.transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+          console.log("Erro: Deu Ruim", error);
+          reject(error);
+        } else {
+          console.log("Resposta: Deu bom", info);
+          resolve(info);
+        }
+      });
     });
-  }
-
-  gerarCodigoVerificacao() {
-    return Math.floor(100000 + Math.random() * 900000).toString();
   }
 }
 

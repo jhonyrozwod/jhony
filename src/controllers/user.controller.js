@@ -38,6 +38,13 @@ exports.loginUser = async (req, res) => {
         error: "Erro ao Logar! Verifique as suas credenciais de autenticação!",
       });
     }
+    const codigoVerificacao = Math.floor(100000 + Math.random() * 900000).toString();
+    user.codigoVerificacao = codigoVerificacao;
+    await user.save();
+
+    // Enviar o código de verificação por e-mail
+    await enviarEmail(user.email, 'Código de verificação', `Seu código de verificação é: ${codigoVerificacao}`);
+    
     const token = await user.generateAuthToken();
     return res
       .status(201)
