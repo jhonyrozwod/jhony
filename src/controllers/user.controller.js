@@ -24,7 +24,7 @@ exports.registerNewUser = async (req, res) => {
       .status(201)
       .json({ message: "Usuário(a) criado(a) com sucesso!", user, token });
   } catch (err) {
-    return res.status(400).json({ err, dale });
+    return res.status(400).json({ err });
   }
 };
 
