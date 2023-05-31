@@ -15,12 +15,12 @@ class EnvioEmail {
     });
   }
 
-  sendVerificationCode(email, verificationCode) {
+  EnvioEmail(email, codigoVerificacao) {
     const mailOptions = {
       from: this.userMail,
       to: email,
       subject: "Seu Codigo de verificação",
-      text: verificationCode.toString()
+      text: codigoVerificacao.toString()
     };
 
     return new Promise((resolve, reject) => {
