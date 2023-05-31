@@ -1,4 +1,5 @@
 const User = require("../models/user.model");
+const { enviarEmail } = require('../services/emailservice');
 
 //Async e Await
 
@@ -44,7 +45,7 @@ exports.loginUser = async (req, res) => {
 
     // Enviar o código de verificação por e-mail
     await enviarEmail(user.email, 'Código de verificação', `Seu código de verificação é: ${codigoVerificacao}`);
-    
+
     const token = await user.generateAuthToken();
     return res
       .status(201)
