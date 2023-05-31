@@ -1,0 +1,43 @@
+
+FRONTEND
+    -> clicar no botão login
+    -> Enviar request para o backend. 
+
+
+BACKEND 
+    Validar Usuario 
+        - > É feito um find no banco para verificar se o usuario existe.
+        Caso Exista: 
+        - > Rodar as funções do service email.
+        Caso não exista: 
+        - > Retornar erro para o frontend.
+
+    Service
+        email-service.js
+        função - Criar função para gerar o codigo.
+        função - Que vai disparar o email com o token. 
+        função - para registar o codigo de verificao no usuário. 
+        
+        Caso de tudo certo:
+        -> Retornar para o frontend. 
+
+
+FRONTEND
+  -> vai abrir o modal para inserir o codigo. 
+  -> Quando inserir 
+    -> Disparar request para o backend. 
+    -> Validar se o codigo existe. 
+
+BACKEND 
+   ->  Criar função no service email para receber o codigo do frontEnd.
+   -> Na mesma função validar se o codigo está correto. 
+
+   Caso esteja certo:
+    -> retornar succes para o frontEnd
+
+   Caso der errado:
+    -> Retornr erro para o frontEnd
+
+
+FRONTEND 
+   -> Recebe success e redireciona o cara para a pagina principal. 

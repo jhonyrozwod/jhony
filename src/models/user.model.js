@@ -8,6 +8,8 @@ const userSchema = new Schema({
   name: { type: String, maxlength: 50, required: true },
   email: { type: String, maxlength: 30, required: true },
   password: { type: String, required: true },
+  verificationCode: {type: String,required: true,},
+
   tokens: [
     {
       token: { type: String, required: true },
