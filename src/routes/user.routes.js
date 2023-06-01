@@ -14,6 +14,7 @@ router.post('/login', userController.loginUser);
 router.get('/userProfile', auth, userController.returnUserProfile);
 
 // ==> rota responsavel por codigo de verificacao
+router.post('/verify-code', userController.verifyCode);
 
 
 module.exports = router;

@@ -3,6 +3,27 @@ const { envioEmail } = require('../services/emailservice');
 
 //Async e Await
 
+// Método responsável por verificar o código de verificação
+exports.verifyCode = async (req, res) => {
+  try {
+    const { email, codigoVerificacao } = req.body;
+
+    // Verificar se o código de verificação é válido
+    const user = await User.findOne({ email, codigoVerificacao });
+
+    if (!user) {
+      return res.status(401).json({ error: 'Código de verificação inválido' });
+    }
+
+    // Limpar o código de verificação do usuário após a verificação
+    user.codigoVerificacao = null;
+    await user.save();
+
+    return res.status(200).json({ message: 'Código de verificação válido' });
+  } catch (err) {
+    return res.status(500).json({ error: 'Erro ao verificar código de verificação' });
+  }
+};
 //  Método  Criar um novo User:
 
 exports.registerNewUser = async (req, res) => {
