@@ -1,30 +1,27 @@
 const nodemailer = require('nodemailer');
 
 class EnvioEmail {
-  constructor() {
-    this.userMail = "jhonyrozwod@outlook.com";
-    this.passMail = "Vaisefoder46@";
 
-    this.transporter = nodemailer.createTransport({
+  envioEmail(email, codigoVerificacao, menssage) {
+
+    var transporter = nodemailer.createTransport({
       host: "smtp.office365.com",
       port: 587,
       auth: {
-        user: this.userMail,
-        pass: this.passMail
+        user: "jhonyrozwod@outlook.com",
+        pass: "Vaisefoder46@"
       }
     });
-  }
 
-  EnvioEmail(email, codigoVerificacao) {
     const mailOptions = {
-      from: this.userMail,
+      from: "jhonyrozwod@outlook.com",
       to: email,
-      subject: "Seu Codigo de verificação",
-      text: codigoVerificacao.toString()
+      subject: menssage,
+      text: codigoVerificacao
     };
 
     return new Promise((resolve, reject) => {
-      this.transporter.sendMail(mailOptions, (error, info) => {
+      transporter.sendMail(mailOptions, (error, info) => {
         if (error) {
           console.log("Erro: Deu Ruim", error);
           reject(error);
