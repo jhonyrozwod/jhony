@@ -3,6 +3,7 @@ const express = require('express');
 const router = express.Router();
 const auth = require('../middlewares/auth');
 const userController = require('../controllers/user.controller');
+const { verifyCode } = require('../middlewares/verifyCode');
 
 // ==> Rota responsável por Criar um novo 'User': (POST): localhost:3000/api/v1/register
 router.post('/register', userController.registerNewUser);
@@ -13,8 +14,7 @@ router.post('/login', userController.loginUser);
 // ==> Rota responsável por retornar o perfil/profile do 'User': (GET): localhost:3000/api/v1/userProfile
 router.get('/userProfile', auth, userController.returnUserProfile);
 
-// ==> rota responsavel por codigo de verificacao
-router.post('/verify-code', userController.verifyCode);
-
+//Verificar codigo   
+router.post('/verifyCode', verifyCode );
 
 module.exports = router;

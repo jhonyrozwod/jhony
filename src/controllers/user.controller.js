@@ -1,29 +1,11 @@
+ 
 const User = require("../models/user.model");
 const { envioEmail } = require('../services/emailservice');
 
 //Async e Await
 
 // Método responsável por verificar o código de verificação
-exports.verifyCode = async (req, res) => {
-  try {
-    const { email, codigoVerificacao } = req.body;
 
-    // Verificar se o código de verificação é válido
-    const user = await User.findOne({ email, codigoVerificacao });
-
-    if (!user) {
-      return res.status(401).json({ error: 'Código de verificação inválido' });
-    }
-
-    // Limpar o código de verificação do usuário após a verificação
-    user.codigoVerificacao = null;
-    await user.save();
-
-    return res.status(200).json({ message: 'Código de verificação válido' });
-  } catch (err) {
-    return res.status(500).json({ error: 'Erro ao verificar código de verificação' });
-  }
-};
 //  Método  Criar um novo User:
 
 exports.registerNewUser = async (req, res) => {
@@ -56,26 +38,33 @@ exports.loginUser = async (req, res) => {
     const { password } = req.body;
     const user = await User.findByCredentials(email, password);
     if (!user) {
-      return res.status(401).json({
+      return res.status(301).json({
         error: "Erro ao Logar! Verifique as suas credenciais de autenticação!",
       });
     }
-
-
     const codigoVerificacao = Math.floor(100000 + Math.random() * 900000).toString();
     user.codigoVerificacao = codigoVerificacao;
     await user.save();
 
-    // Enviar o código de verificação por e-mail
-   await envioEmail(user.email, user.codigoVerificacao, `Seu código de verificação é: ${codigoVerificacao}`);
-   
-    const token = await user.generateAuthToken();
-    
-    return res
+    var teste = await envioEmail(user.email, user.codigoVerificacao, `Seu código de verificação é: ${codigoVerificacao}`);
+    if(teste == "SUCCESS"){
+      console.log('Deu boa o envio');
+      const token = await user.generateAuthToken();
+
+      return res
       .status(201)
       .json({ message: "Usuário(a) logado com sucesso!", user, token });
+
+    } else {
+      return res
+      .status(503)
+      .json({ message: "Falha ao se comunicar com o servidor, tente novamente em instantes...", user, token });
+    }
+
   } catch (err) {
+
     return res.status(400).json({ err });
+
   }
 };
 
