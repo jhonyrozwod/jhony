@@ -1,0 +1,12 @@
+const mongoose = require("mongoose")
+require("../models/postagens")
+const Postagem = mongoose.model("postagens")
+
+exports.listarPostagens = async (req, res) => {
+  try {
+    const postagens = await Postagem.find().lean().sort({ data: "desc" });
+    res.status(200).json(postagens);
+  } catch (err) {
+    res.status(500).json({ error: 'Erro ao listar postagens' });
+  }
+};

@@ -6,5 +6,5 @@ const logger = require('./src/logger');
 ``
 
 app.listen(port, () => {
-logger.info(`Aplicação executando na porta ${port}`)
+logger.info('Aplicação executando na porta...: '+ port)
 });
